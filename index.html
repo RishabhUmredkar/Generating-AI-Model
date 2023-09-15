@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Generating AI</title>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -15,7 +14,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
     <script src="./assets/js/charts-lines.js" defer></script>
     <script src="./assets/js/charts-pie.js" defer></script>
-    <style>
+    
+    <!-- Add the new favicon icon -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+      <style>
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -67,7 +69,7 @@
         }
 
         #userInput {
-            width: 100%;
+            width: 70%;
             border: none;
             padding: 10px;
             font-size: 16px;
@@ -1605,12 +1607,14 @@
             </div>
           </div>-->
 
+          <div id="chatbox">
+            <!-- Messages will be appended here -->
+          </div>
+          <div class="input-container">
+            <input type="text" id="userInput" placeholder="Type your message here..." autofocus>
+            <button id="sendMessageButton">Send</button>
+          </div>
           
-    <div id="chatbox">
-        <div class="bot-message">Welcome to ChatGPT! How can I assist you today?</div>
-    </div>
-    <div class="input-container">
-
         
             <!-- Search input -->
             <div class="flex justify-center flex-1 lg:mr-32">
@@ -1639,67 +1643,57 @@
                   /> -->
                 </div>
               </div>
-        <input type="text" id="userInput" placeholder="Type your message here..." autofocus>
-        <!-- <span id="cameraIcon" onclick="openCamera()">📷</span>
-        <button id="darkModeButton">Toggle Dark Mode</button>
-        <input type="file" accept="image/*" id="cameraInput" capture="environment" style="display: none;"> -->
+       
     </div>
 
     <script>
-        function appendUserMessage(message) {
-            const chatbox = document.getElementById('chatbox');
-            const userMessage = document.createElement('div');
-            userMessage.className = 'user-message';
-            userMessage.textContent = message;
-            chatbox.appendChild(userMessage);
+        function sendMessage() {
+          handleUserInput();
         }
-
-        function appendBotMessage(message) {
-            const chatbox = document.getElementById('chatbox');
-            const botMessage = document.createElement('div');
-            botMessage.className = 'bot-message';
-            botMessage.textContent = message;
-            chatbox.appendChild(botMessage);
-        }
-
-        function handleUserInput() {
-            const userInput = document.getElementById('userInput');
-            const message = userInput.value.trim();
-            if (message !== '') {
-                appendUserMessage(message);
-                // You can implement your AI or chatbot logic here to generate a response
-                const botResponse = 'I received your message: ' + message;
-                appendBotMessage(botResponse);
-                userInput.value = '';
-            }
-        }
-
+      
+        document.getElementById('sendMessageButton').addEventListener('click', sendMessage);
+      
         const userInput = document.getElementById('userInput');
         userInput.addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                handleUserInput();
-            }
+          if (event.key === 'Enter') {
+            sendMessage();
+          }
         });
-
-        function openCamera() {
-            const cameraInput = document.getElementById('cameraInput');
-            cameraInput.click();
+      
+        function appendUserMessage(message) {
+          const chatbox = document.getElementById('chatbox');
+          const userMessage = document.createElement('div');
+          userMessage.className = 'user-message';
+          userMessage.textContent = message;
+          chatbox.appendChild(userMessage);
+          chatbox.scrollTop = chatbox.scrollHeight;
         }
-
-        // Function to handle the selected image from the camera
-        document.getElementById('cameraInput').addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onloadend = function () {
-                    const dataUrl = reader.result;
-                    // Handle the dataUrl (e.g., display the image)
-                    appendUserMessage('📷 Image taken: ' + dataUrl);
-                    // Implement any logic you need with the image dataUrl here
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+      
+        function appendBotMessage(message) {
+          const chatbox = document.getElementById('chatbox');
+          const botMessage = document.createElement('div');
+          botMessage.className = 'bot-message';
+          botMessage.textContent = message;
+          chatbox.appendChild(botMessage);
+          chatbox.scrollTop = chatbox.scrollHeight;
+        }
+      
+        function handleUserInput() {
+          const userInput = document.getElementById('userInput');
+          const message = userInput.value.trim();
+          if (message !== '') {
+            appendUserMessage(message);
+            // Implement your AI or chatbot logic here to generate a response
+            const botResponse = 'I received your message: ' + message;
+            appendBotMessage(botResponse);
+            userInput.value = '';
+          }
+        }
+      
+        window.onload = function () {
+          const chatbox = document.getElementById('chatbox');
+          chatbox.scrollTop = chatbox.scrollHeight;
+        };
       </script>
 </body>
 </html>
